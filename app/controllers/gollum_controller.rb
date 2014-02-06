@@ -66,7 +66,8 @@ class GollumController < ApplicationController
     git_path = project_repository_path
 
     unless File.directory? git_path
-      Grit::Repo.init_bare(git_path)
+      #Grit::Repo.init_bare(git_path)
+      Rugged::Repository.init_at(git_path, :bare)
     end
 
     wiki_dir = @project.gollum_wiki.directory
