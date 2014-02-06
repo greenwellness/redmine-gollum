@@ -1,3 +1,7 @@
+require 'debugger'
+
+debugger
+puts "foo"
 class CreateGollumWikis < ActiveRecord::Migration
   def self.up
     create_table :gollum_wikis do |t|

@@ -2,8 +2,7 @@ require 'redmine'
 require 'debugger'
 
 Rails.configuration.to_prepare do
-  #require 'grit'
-  require 'rugged'
+  require 'rugged' # deprecated 'grit'
   require 'gollum'
   require_dependency 'gollum_project_model_patch'
   require_dependency 'gollum_projects_helper_patch'
@@ -16,24 +15,18 @@ Rails.configuration.to_prepare do
 end
 
 Redmine::Plugin.register :redmine_gollum do
-  name 'Redmine Gollum plugin'
-  author 'Kang-min Liu <gugod@gugod.org>'
+  name 'Redmine Gollum plugin (fork)'
+  author 'Rob Jentzema (org.work Kang-min Liu)'
   description 'A gollum plugin for redmine'
 
   # use git to get version name
   #repo = Grit::Repo.new("#{Rails.root}/plugins/redmine_gollum/.git")
-  repo = Rugged::Repository.new(File.join(Rails.root, "plugins", "redmine-gollum", ".git"))
-#  ref = repo.head
-#  sha = ref.target
-#  ref = Rugged::Reference.lookup(repo, "refs/tags")
-  repo.refs("refs/tags/").each do |ref|
-    puts ref.name
-    puts "foo"
-  end
-
-  debugger
-
-#  version tag.name 
+  repo = Rugged::Repository.new(File.join(Rails.root, "plugins", "redmine_gollum", ".git"))
+ 
+  # Wait for https://github.com/libgit2/rugged/pull/255
+  # Probably get a much nicer Reference::Tag collection in the API
+  # So we can get the proper version number from our git repo tag
+  version "alpha1"
 
   url 'https://github.com/greenwellness/redmine-gollum/'
   author_url 'http://gugod.org'
