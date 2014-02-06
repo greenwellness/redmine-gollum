@@ -23,10 +23,17 @@ Redmine::Plugin.register :redmine_gollum do
   # use git to get version name
   #repo = Grit::Repo.new("#{Rails.root}/plugins/redmine_gollum/.git")
   repo = Rugged::Repository.new(File.join(Rails.root, "plugins", "redmine-gollum", ".git"))
-  ref = repo.head
-  sha = ref.target
-  tag = repo.lookup(sha)
-  version tag.name 
+#  ref = repo.head
+#  sha = ref.target
+#  ref = Rugged::Reference.lookup(repo, "refs/tags")
+  repo.refs("refs/tags/").each do |ref|
+    puts ref.name
+    puts "foo"
+  end
+
+  debugger
+
+#  version tag.name 
 
   url 'https://github.com/greenwellness/redmine-gollum/'
   author_url 'http://gugod.org'
